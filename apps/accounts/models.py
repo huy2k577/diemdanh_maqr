@@ -5,7 +5,7 @@ class Admin(models.Model):
     username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=255)
     full_name = models.CharField(max_length=100)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         db_table = 'admins'

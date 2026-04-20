@@ -22,7 +22,7 @@ def enter_password_view(request, schedule_id):
 
         form.add_error('schedule_password', 'Mật khẩu không đúng.')
 
-    return render(request, 'qrscanner/enter_password.html', {
+    return render(request, 'qrscanner/loginscarner.html', {
         'form': form,
         'schedule': schedule
     })
@@ -32,7 +32,7 @@ def scan_page_view(request, schedule_id):
     schedule = get_object_or_404(ScanSchedule, pk=schedule_id, is_active=1)
 
     if not request.session.get(f'scan_access_{schedule_id}'):
-        return redirect('qrscanner:enter_password', schedule_id=schedule_id)
+        return redirect('qrscanner:loginscarner', schedule_id=schedule_id)
 
     return render(request, 'qrscanner/scan_page.html', {
         'schedule': schedule
