@@ -22,7 +22,8 @@ RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-# Sửa dòng CMD cũ thành dòng này
-CMD python manage.py migrate && python create_admin.py && gunicorn config.wsgi:application --bind 0.0.0.0:8000
+# Xóa các dòng CMD cũ, chỉ để lại duy nhất dòng này
+CMD ["sh", "-c", "python manage.py migrate --noinput && python create_admin.py && gunicorn config.wsgi:application --bind 0.0.0.0:8000"]
+
 # Nhớ thay "ten_du_an" bằng tên thư mục chứa file wsgi.py của bạn
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
