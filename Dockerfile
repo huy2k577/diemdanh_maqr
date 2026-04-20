@@ -5,6 +5,7 @@ FROM python:3.10-buster
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+
 WORKDIR /app
 
 # Cài đặt pip và dependencies
@@ -20,6 +21,9 @@ COPY . .
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
+
+# Sửa dòng CMD cũ thành dòng này
+CMD python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000
 
 # Nhớ thay "ten_du_an" bằng tên thư mục chứa file wsgi.py của bạn
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
