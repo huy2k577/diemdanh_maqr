@@ -1,0 +1,1 @@
+from apps.attendance.models import ScanSchedule, ScanHistory

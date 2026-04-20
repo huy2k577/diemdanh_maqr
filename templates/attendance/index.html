@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Quản lý lịch quét{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin/admin.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+    <div class="admin-header">
+        <div>
+            <h1>Quản lý lịch quét</h1>
+            <p>Xin chào, {{ admin_name }}</p>
+        </div>
+        <div class="header-actions">
+            <a href="{% url 'attendance:create_schedule' %}" class="btn btn-primary">+ Tạo lịch quét</a>
+            <a href="{% url 'accounts:logout' %}" class="btn btn-danger">Đăng xuất</a>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Chủ đề</th>
+                    <th>Ngày quét</th>
+                    <th>Mật khẩu</th>
+                    <th>Trạng thái</th>
+                    <th>Người tạo</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in schedules %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.topic_name }}</td>
+                    <td>{{ item.scan_date|date:"d/m/Y" }}</td>
+                    <td>{{ item.scan_password }}</td>
+                    <td>
+                        {% if item.is_active == 1 %}
+                            <span class="status active">Đang mở</span>
+                        {% else %}
+                            <span class="status inactive">Đã khóa</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ item.admin.full_name }}</td>
+                    <td class="action-group">
+                        <a href="{% url 'attendance:edit_schedule' item.id %}" class="btn btn-warning">Sửa</a>
+
+                        <a href="{% url 'attendance:toggle_schedule' item.id %}" class="btn btn-secondary">
+                            {% if item.is_active == 1 %}Khóa{% else %}Mở{% endif %}
+                        </a>
+
+                        <a href="{% url 'qrscanner:scan_page' item.id %}" class="btn btn-primary">
+                            Quét QR
+                        </a>
+
+                        <a href="{% url 'attendance:history_list' item.id %}" class="btn btn-info">
+                            Xem danh sách
+                        </a>
+
+                        <a href="{% url 'attendance:export_history_excel' item.id %}" class="btn btn-success">
+                            Export Excel
+                        </a>
+
+                        <a href="{% url 'attendance:delete_schedule' item.id %}"
+                        class="btn btn-danger"
+                        onclick="return confirm('Bạn chắc chắn muốn xóa lịch quét này?');">
+                            Xóa
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="empty-row">Chưa có lịch quét nào.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

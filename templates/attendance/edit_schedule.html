@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sửa lịch quét{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin/admin.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-page">
+    <div class="form-card">
+        <h1>Sửa lịch quét</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Chủ đề điểm danh</label>
+                {{ form.topic_name }}
+            </div>
+            <div class="form-group">
+                <label>Ngày quét</label>
+                {{ form.scan_date }}
+            </div>
+            <div class="form-group">
+                <label>Mật khẩu quét</label>
+                {{ form.scan_password }}
+            </div>
+            <div class="form-group">
+                <label>Trạng thái</label>
+                {{ form.is_active }}
+            </div>
+
+            <div class="action-row">
+                <a href="{% url 'attendance:dashboard' %}" class="btn btn-secondary">Quay lại</a>
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

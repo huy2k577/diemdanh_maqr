@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Quét mã QR{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/scan/scan.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="scan-page">
+    <div class="scan-card">
+        <h1>{{ schedule.topic_name }}</h1>
+        <p class="scan-date">Ngày quét: {{ schedule.scan_date|date:"d/m/Y" }}</p>
+
+        <div class="scan-actions">
+            <button id="start-camera-btn" class="btn btn-primary">Bật camera</button>
+            <button id="stop-camera-btn" class="btn btn-danger" style="display:none;">Tắt camera</button>
+        </div>
+
+        <div id="reader-wrapper" class="scan-idle">
+            <div id="reader"></div>
+
+            <div class="scan-overlay">
+                <div class="scan-frame"></div>
+                <div class="scan-line"></div>
+            </div>
+        </div>
+
+        <div class="result-box">
+            <h3>Kết quả quét</h3>
+            <div id="scan-result">Chưa có dữ liệu quét.</div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script>
+    window.SCAN_CONFIG = {
+        saveUrl: "{% url 'qrscanner:save_scan' schedule.id %}",
+        csrfToken: "{{ csrf_token }}"
+    };
+</script>
+<script src="{% static 'js/scan/scan_qr.js' %}"></script>
+{% endblock %}

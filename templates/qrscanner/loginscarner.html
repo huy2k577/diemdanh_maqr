@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nhập mật khẩu buổi quét{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/scan/loginscaner.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="scan-auth-page">
+    <div class="scan-auth-card">
+        <h1>{{ schedule.topic_name }}</h1>
+        <p class="scan-date">Ngày quét: {{ schedule.scan_date|date:"d/m/Y" }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label> <strong>Mật khẩu</strong></label>
+                {{ form.schedule_password }}
+                {% if form.schedule_password.errors %}
+                    <div class="field-error">{{ form.schedule_password.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Vào trang</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

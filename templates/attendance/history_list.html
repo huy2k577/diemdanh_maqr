@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Danh sách điểm danh{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin/admin.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+    <div class="admin-header">
+        <div>
+            <h1>Danh sách điểm danh</h1>
+            <p><strong>Chủ đề:</strong> {{ schedule.topic_name }}</p>
+            <p><strong>Ngày:</strong> {{ schedule.scan_date|date:"d/m/Y" }}</p>
+        </div>
+        <div class="header-actions">
+            <a href="{% url 'attendance:export_history_excel' schedule.id %}" class="btn btn-success">Export Excel</a>
+            <a href="{% url 'attendance:dashboard' %}" class="btn btn-secondary">Quay lại</a>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã sinh viên</th>
+                    <th>Tên sinh viên</th>
+                    <th>Năm sinh</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in histories %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.masv }}</td>
+                    <td>{{ item.tensv }}</td>
+                    <td>{{ item.namsinhsv|date:"d/m/Y" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="empty-row">Chưa có dữ liệu điểm danh.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
