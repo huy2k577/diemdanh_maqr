@@ -18,7 +18,7 @@ class ScanSchedule(models.Model):
 
     class Meta:
         db_table = 'scan_schedules'
-        managed = False
+        managed = True
         ordering = ['-id']
 
     def __str__(self):
@@ -39,7 +39,7 @@ class ScanHistory(models.Model):
 
     class Meta:
         db_table = 'scan_histories'
-        managed = False
+        managed = True
         constraints = [
             models.UniqueConstraint(fields=['schedule', 'masv'], name='uq_schedule_masv')
         ]
