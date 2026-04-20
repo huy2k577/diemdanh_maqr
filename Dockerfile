@@ -18,7 +18,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Gom file tĩnh
-RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput || true
 
 EXPOSE 8000
+
+# CHỈ GIỮ DUY NHẤT 1 DÒNG CMD NÀY
 CMD ["sh", "-c", "python manage.py migrate --noinput && python create_admin.py && gunicorn config.wsgi:application --bind 0.0.0.0:8000"]
