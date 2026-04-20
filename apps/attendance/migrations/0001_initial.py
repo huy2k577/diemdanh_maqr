@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'scan_histories',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
             options={
                 'db_table': 'scan_schedules',
                 'ordering': ['-id'],
-                'managed': False,
+                'managed': True,
             },
         ),
     ]
