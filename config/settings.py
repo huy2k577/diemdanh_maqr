@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import dj_database_url
 
 load_dotenv()
 
@@ -8,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
-DEBUG=True
+
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 INSTALLED_APPS = [
@@ -55,38 +56,28 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# Database
-# Render free/prod nên dùng Postgres riêng trên Render
 APP_ENV = os.environ.get("APP_ENV", "local")
+
 if APP_ENV == "render":
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('DB_NAME', ), # Thêm chữ 'dummy'
-            'USER': os.environ.get('DB_USER',),
-            'PASSWORD': os.environ.get('DB_PASSWORD',),
-            'HOST': os.environ.get('DB_HOST'),
-            'PORT': os.environ.get('DB_PORT', '5432'),
-        }
+        "default": dj_database_url.parse(
+            os.environ.get("DATABASE_URL")
+        )
     }
 else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'diemdanh_maqr',
-            'USER': 'diemdanhmaqr',
-            'PASSWORD': 'diemdanhmaqr2026',
-            'HOST': 'host.docker.internal',
-            'PORT': '3306',
+            'NAME': os.environ.get('MYSQL_DB_NAME', 'diemdanh_maqr'),
+            'USER': os.environ.get('MYSQL_DB_USER', 'diemdanhmaqr'),
+            'PASSWORD': os.environ.get('MYSQL_DB_PASSWORD', 'diemdanhmaqr2026'),
+            'HOST': os.environ.get('MYSQL_DB_HOST', '127.0.0.1'),
+            'PORT': os.environ.get('MYSQL_DB_PORT', '3306'),
             'OPTIONS': {
                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
             }
         }
     }
-
-
-# Nếu bạn tạm thời vẫn muốn chạy local bằng MySQL trên máy mình,
-# mình chỉ bạn tách local/render sau. Nhưng để deploy Render, bản trên là dễ nhất.
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -113,11 +104,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-ALLOWED_HOSTS = ["*"]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
-
-
-
