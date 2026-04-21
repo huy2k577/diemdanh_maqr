@@ -32,8 +32,6 @@ class ScanHistory(models.Model):
         on_delete=models.CASCADE,
         db_column='schedule_id',
         related_name='scan_histories',
-        null=True,   # Thêm để tránh lỗi dữ liệu cũ
-        blank=True   # Thêm để tránh lỗi dữ liệu cũ
     )
     masv = models.CharField(max_length=20)
     tensv = models.CharField(max_length=100)
