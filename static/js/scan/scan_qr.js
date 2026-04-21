@@ -98,7 +98,6 @@ startBtn.addEventListener("click", async function () {
         startBtn.style.display = "none";
         stopBtn.style.display = "inline-flex";
 
-      
 
     } catch (error) {
         console.error(error);

@@ -71,7 +71,7 @@ def save_scan_view(request, schedule_id):
     if len(parts) != 3:
         return JsonResponse({
             'success': False,
-            'message': 'Mã QR không đúng định dạng. Ví dụ: DH52300671_LEPHUOCHUY_22.03.2005'
+            'message': 'Mã QR không đúng định dạng.'
         }, status=400)
 
     masv, tensv, ngaysinh_text = parts
@@ -81,13 +81,13 @@ def save_scan_view(request, schedule_id):
     except ValueError:
         return JsonResponse({
             'success': False,
-            'message': 'Ngày sinh không hợp lệ. Định dạng đúng là dd.mm.yyyy'
+            'message': 'Ngày sinh không hợp lệ.'
         }, status=400)
 
     if ScanHistory.objects.filter(schedule_id=schedule_id, masv=masv).exists():
         return JsonResponse({
             'success': False,
-            'message': f'Sinh viên {masv} đã được quét trước đó.'
+            'message': f'Sinh viên đã được quét trước đó.'
         }, status=400)
 
     try:
