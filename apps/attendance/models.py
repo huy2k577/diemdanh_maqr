@@ -7,7 +7,9 @@ class ScanSchedule(models.Model):
         Admin,
         on_delete=models.CASCADE,
         db_column='admin_id',
-        related_name='scan_schedules'
+        related_name='scan_schedules',
+        null=True,
+        blank=True
     )
     topic_name = models.CharField(max_length=255)
     scan_date = models.DateField()
@@ -32,6 +34,8 @@ class ScanHistory(models.Model):
         on_delete=models.CASCADE,
         db_column='schedule_id',
         related_name='scan_histories',
+        null=True,
+        blank=True
     )
     masv = models.CharField(max_length=20)
     tensv = models.CharField(max_length=100)

@@ -9,7 +9,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
-DEBUG=True
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 INSTALLED_APPS = [
@@ -55,30 +54,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 APP_ENV = os.environ.get("APP_ENV", "local")
 
 if APP_ENV == "render":
     DATABASES = {
-        "default": dj_database_url.parse(
-            os.environ.get("DATABASE_URL")
-        )
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
     }
 else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ.get('MYSQL_DB_NAME', 'diemdanh_maqr'),
-            'USER': os.environ.get('MYSQL_DB_USER', 'diemdanhmaqr'),
-            'PASSWORD': os.environ.get('MYSQL_DB_PASSWORD', 'diemdanhmaqr2026'),
-            'HOST': os.environ.get('MYSQL_DB_HOST', '127.0.0.1'),
-            'PORT': os.environ.get('MYSQL_DB_PORT', '3306'),
+            'NAME': 'diemdanh_maqr',
+            'USER': 'diemdanhmaqr',
+            'PASSWORD': 'diemdanhmaqr2026',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
             'OPTIONS': {
                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
             }
         }
     }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -103,6 +98,6 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
